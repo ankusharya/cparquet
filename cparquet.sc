@@ -19,7 +19,7 @@ trait ColorDisplay {
 }
 import com.github.mjakubowski84.parquet4s.{BinaryValue, DoubleValue, FloatValue, IntValue, LongValue, NullValue, ParquetIterable, ParquetReader, RowParquetRecord}
 
-class ParquetUtil(file: String) extends ColorDisplay {
+class ParquetUtil(file: String, n: Int) extends ColorDisplay {
   private def read: ParquetIterable[RowParquetRecord] =
     ParquetReader.read[RowParquetRecord](file, options = ParquetReader.Options())
 
@@ -42,6 +42,7 @@ class ParquetUtil(file: String) extends ColorDisplay {
   }
 
   def process = {
+    println("Input Given "+n)
     val itr = read.iterator
     val first = itr.next()
     val colNames = header(first)
@@ -54,9 +55,11 @@ class ParquetUtil(file: String) extends ColorDisplay {
     displayData(firstValue)
 
     // Display the rest
-    while( itr.hasNext){
+    var i = 0
+    while( itr.hasNext && i < n){
       val nextData = itr.next()
       displayData(value(nextData))
+      i = i + 1
     }
   }
 
@@ -65,12 +68,12 @@ class ParquetUtil(file: String) extends ColorDisplay {
 }
 
 object ParquetUtil {
-  def apply(file: String) = new ParquetUtil(file)
+  def apply(file: String, n: Int) = new ParquetUtil(file, n)
 }
 
 
 @main
-def main(path: String) = {
+def main(path: String, n: Int = 10) = {
 
-ParquetUtil(path).process
+ParquetUtil(path, n).process
 }

@@ -7,4 +7,4 @@ This project was inspired by Rainbow-CSV.
 Download from (here)[https://ammonite.io/]
 
 ## Execution
-1. bash cparquet "/absolute/location/of/file.parquet"
+1. bash cparquet --path "/absolute/location/of/file.parquet" -n 20
