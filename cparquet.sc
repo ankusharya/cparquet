@@ -5,15 +5,15 @@ import $ivy.`com.lihaoyi::fansi:0.2.10`
 import fansi.Color._
 object ColorList {
 
-  val colorList = List(Cyan,LightBlue,LightGray,LightMagenta, LightYellow, Red, Yellow, Blue, DarkGray, Green, LightCyan, LightGreen, LightRed,Magenta,
-    Cyan,LightBlue,LightGray,LightMagenta, LightYellow, Red, Yellow, Blue, DarkGray, Green, LightCyan, LightGreen, LightRed,Magenta,
-    Cyan,LightBlue,LightGray,LightMagenta, LightYellow, Red, Yellow, Blue, DarkGray, Green, LightCyan, LightGreen, LightRed,Magenta,
-    Cyan,LightBlue,LightGray,LightMagenta, LightYellow, Red, Yellow, Blue, DarkGray, Green, LightCyan, LightGreen, LightRed,Magenta)
+  val colorList = List(Cyan,LightBlue,LightGray,LightMagenta, LightYellow, Red, Yellow, Blue, DarkGray, Green, LightCyan, LightGreen, LightRed,Magenta)
+
+  def extendedColorList(sz: Int) = for (i <- 0 until sz) yield colorList(i % colorList.size)
 }
 
 trait ColorDisplay {
   def display(seq: Seq[String]) = {
-    println(seq.zipWithIndex.map { case (x, i) => ColorList.colorList(i)(x) }.
+    val reqColor = ColorList.extendedColorList(seq.size)
+    println(seq.zipWithIndex.map { case (x, i) => reqColor(i)(x) }.
       mkString(","))
   }
 }
